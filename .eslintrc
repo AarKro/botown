@@ -7,10 +7,13 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended"
   ],
   "rules": {
     "indent": ["error", 2],
-    "semi": ["error", "always"]
+    "semi": ["error", "always"],
+    "import/extensions": ["error", "ignorePackages"],
+    "import/no-unresolved": "off"
   }
 }

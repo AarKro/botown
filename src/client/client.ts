@@ -14,7 +14,7 @@ export const createClient = (botId: string) => {
       IntentsBitField.Flags.GuildMembers,
       IntentsBitField.Flags.GuildMessages,
       IntentsBitField.Flags.GuildMessageReactions,
-      IntentsBitField.Flags.GuildVoiceStates,
+      IntentsBitField.Flags.GuildVoiceStates
     ],
     
     // Debug logs are disabled in silent mode
