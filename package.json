@@ -1,0 +1,41 @@
+{
+  "name": "villechars",
+  "description": "villechars",
+  "version": "0.0.1",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "eslint . --ext .ts && tsc",
+    "start": "npm run build && node build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AarKro/villechars.git"
+  },
+  "keywords": [
+    "discord",
+    "discord-bot",
+    "discord-bot-ecosystem",
+    "bot",
+    "rpg"
+  ],
+  "author": "The Engibeers",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/AarKro/villechars/issues"
+  },
+  "homepage": "https://github.com/AarKro/villechars#readme",
+  "devDependencies": {
+    "@types/node": "^18.6.4",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
+    "@typescript-eslint/parser": "^5.32.0",
+    "eslint": "^8.21.0",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@discordx/importer": "^1.1.10",
+    "discord.js": "^14.1.2",
+    "discordx": "^11.0.8",
+    "reflect-metadata": "^0.1.13"
+  }
+}
