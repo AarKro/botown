@@ -14,6 +14,9 @@
     "indent": ["error", 2],
     "semi": ["error", "always"],
     "import/extensions": ["error", "ignorePackages"],
-    "import/no-unresolved": "off"
+    "import/no-unresolved": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-unused-vars": "off"
   }
 }

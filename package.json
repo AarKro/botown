@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "eslint . --ext .ts && tsc",
+    "lint": "eslint . --ext .ts",
+    "build": "npm run lint && tsc",
     "start": "npm run build && node build/index.js"
   },
   "repository": {
