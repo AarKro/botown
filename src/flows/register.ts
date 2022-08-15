@@ -5,7 +5,7 @@ import { FlowEngine } from "./engine.js";
 export const RegisterFlow = {
   create(interaction: CommandInteraction) {
     return FlowEngine
-      .createFlow(interaction)
+      .createFlow("register", interaction)
       .validate(playerDoesNotExist)
       .process(registerPlayer)
       .process(resolve);

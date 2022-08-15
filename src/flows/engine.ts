@@ -6,11 +6,11 @@ enum FlowStepType {
   TRANSFORM,
 }
 
-type FlowProcessStep<T> = (event: T, ...args: any[]) => void;
+type FlowProcessStep<T> = (interaction: T, ...args: any[]) => void;
 
-type FlowValidationStep<T> = (event: T, ...args: any[]) => boolean;
+type FlowValidationStep<T> = (interaction: T, ...args: any[]) => boolean;
 
-type FlowTransformStep<T> = (event: T, ...args: any[]) => any[];
+type FlowTransformStep<T> = (interaction: T, ...args: any[]) => any[];
 
 interface FlowProcessInstruction<T> {
   flowStepType: FlowStepType.PROCESS;
@@ -31,29 +31,31 @@ type FlowInstruction<T> = FlowProcessInstruction<T> | FlowValidationInstruction<
 
 interface Flow<T> {
   id: number;
-  event: T;
+  name: string;
+  interaction: T;
   instructions: FlowInstruction<T>[];
-  logArgs: () => Flow<T>
+  log: () => Flow<T>
   process: (step: FlowProcessStep<T>) => Flow<T>;
   validate: (step: FlowValidationStep<T>) => Flow<T>
   transform: (step: FlowTransformStep<T>) => Flow<T>;
   execute: () => void;
 }
 
-const logArgs: FlowProcessStep<unknown> = <T>(event: T, ...args: any[]) => {
-  console.log(args);
+const log = (id: number, name: string, args: any[]) => {
+  console.log(id, name, args);
 };
 
 export const FlowEngine = {
-  createFlow<T>(event: T): Flow<T> {
+  createFlow<T>(name: string, interaction: T): Flow<T> {
     return {
       id: IDGenerator.next().value,
-      event,
+      name,
+      interaction,
       instructions: [],
-      logArgs() {
+      log() {
         this.instructions.push({
           flowStepType: FlowStepType.PROCESS,
-          step: logArgs
+          step: (interaction, ...args) => log(this.id, this.name, args)
         });
         return this;
       },
@@ -83,12 +85,12 @@ export const FlowEngine = {
         this.instructions.every(instruction => {
           switch (instruction.flowStepType) {
           case FlowStepType.PROCESS:
-            instruction.step(this.event, ...args);
+            instruction.step(this.interaction, ...args);
             break;
           case FlowStepType.VALIDATION:
-            return instruction.step(this.event, ...args);
+            return instruction.step(this.interaction, ...args);
           case FlowStepType.TRANSFORM:
-            args = instruction.step(this.event, ...args);
+            args = instruction.step(this.interaction, ...args);
             break;
           default:
             console.error(`flow step instruction doesn't belong to any type?? ${instruction}`);

@@ -4,19 +4,19 @@ import { FlowEngine } from "./engine.js";
 export const TestFlow = {
   create(interaction: CommandInteraction) {
     return FlowEngine
-      .createFlow(interaction)
+      .createFlow("test", interaction)
       .transform(transformer1)
-      .logArgs()
+      .log()
       .validate(validator1)
       .transform(transformer2)
-      .logArgs()
+      .log()
       .validate(validator2)
       .process(processor1);  
   }
 }; 
 
 const transformer1 = () => {
-  return [1, 2, 3, 4, 5];
+  return [[1, 2, 3, 4, 5]];
 };
 
 const validator1 = (interaction: CommandInteraction, numbers: number[]) => {
@@ -24,7 +24,7 @@ const validator1 = (interaction: CommandInteraction, numbers: number[]) => {
 };
 
 const transformer2 = (interaction: CommandInteraction, numbers: number[]) => {
-  return numbers.map(n => n.toString());
+  return [numbers.map(n => n.toString())];
 };
 
 const validator2 = (interaction: CommandInteraction, strings: string[]) => {
