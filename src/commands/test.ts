@@ -8,8 +8,9 @@ class Test {
   
   @Slash("test")
   test(interaction: CommandInteraction) {
-    const flow = TestFlow.create(interaction);
-    flow.process();
+    TestFlow
+      .create(interaction)
+      .execute();
   }
 }
 

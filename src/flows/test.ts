@@ -1,33 +1,36 @@
 import { CommandInteraction } from "discord.js";
-import { Flow } from "./index.js";
+import { FlowEngine } from "./engine.js";
 
 export const TestFlow = {
-  create(event: CommandInteraction) {
-    return Flow.new(event)
-      .apply(processor1)
-      .apply(processor2)
-      .apply(processor3)
-      .apply(processor4)
-      .apply(processor5);
+  create(interaction: CommandInteraction) {
+    return FlowEngine
+      .createFlow(interaction)
+      .transform(transformer1)
+      .logArgs()
+      .validate(validator1)
+      .transform(transformer2)
+      .logArgs()
+      .validate(validator2)
+      .process(processor1);  
   }
 }; 
 
-const processor1 = () => {
-  return [{}];
+const transformer1 = () => {
+  return [1, 2, 3, 4, 5];
 };
-const processor2 = (event: CommandInteraction, arg: any) => {
-  arg.one = 1;
-  return [arg];
+
+const validator1 = (interaction: CommandInteraction, numbers: number[]) => {
+  return numbers.every(n => typeof n === "number");
 };
-const processor3 = (event: CommandInteraction, arg: any) => {
-  arg.two = 2;
-  return [arg];
+
+const transformer2 = (interaction: CommandInteraction, numbers: number[]) => {
+  return numbers.map(n => n.toString());
 };
-const processor4 = (event: CommandInteraction, arg: any) => {
-  arg.three = 3;
-  return [arg];
+
+const validator2 = (interaction: CommandInteraction, strings: string[]) => {
+  return strings.every(s => typeof s === "string");
 };
-const processor5 = (event: CommandInteraction, arg: any) => {
-  event.reply(JSON.stringify(arg));
-  return [];
+
+const processor1 = (interaction: CommandInteraction, strings: string[]) => {
+  interaction.reply(`an array of number strings! ${strings}`);
 };
