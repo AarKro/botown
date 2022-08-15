@@ -7,10 +7,12 @@ export const TestFlow = {
       .createFlow("test", interaction)
       .transform(transformer1)
       .log()
-      .validate(validator1)
+      .validate(validator => validator
+        .check(validator1))
       .transform(transformer2)
       .log()
-      .validate(validator2)
+      .validate(validator => validator
+        .check(validator2))
       .process(processor1);  
   }
 }; 

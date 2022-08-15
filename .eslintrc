@@ -13,6 +13,7 @@
   "rules": {
     "indent": ["error", 2],
     "semi": ["error", "always"],
+    "no-case-declarations": "off",
     "import/extensions": ["error", "ignorePackages"],
     "import/no-unresolved": "off",
     "@typescript-eslint/no-explicit-any": "off",

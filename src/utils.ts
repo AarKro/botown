@@ -6,3 +6,9 @@ const idGenerator = function*() {
 };
 
 export const IDGenerator = idGenerator();
+
+export const noop = () => undefined;
+
+export const alwaysTrue = () => true;
+
+export const alwaysFalse = () => false;

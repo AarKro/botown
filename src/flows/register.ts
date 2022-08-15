@@ -1,30 +1,27 @@
 import { CommandInteraction } from "discord.js";
-import { Player, PlayerService } from "../database/index.js";
+import { PlayerService } from "../database/index.js";
 import { FlowEngine } from "./engine.js";
 
 export const RegisterFlow = {
   create(interaction: CommandInteraction) {
     return FlowEngine
       .createFlow("register", interaction)
-      .validate(playerDoesNotExist)
-      .process(registerPlayer)
+      .validate(validator => validator
+        .check(doesPlayerExist)
+        .not()
+        .onValid(registerPlayer)
+        .onInvalid(playerAlreadyExists))
       .process(resolve);
   }
 }; 
 
-const playerDoesNotExist = (interaction: CommandInteraction, id: string) => {
-  let player: Player | undefined;
-  if (id) {
-    player = PlayerService.get(id);
-  } else {
-    player = PlayerService.get(interaction.user.id);
-  }
+const doesPlayerExist = (interaction: CommandInteraction) => {
+  const player = PlayerService.get(interaction.user.id);
+  return Boolean(player);
+};
 
-  if (player) {
-    interaction.reply("Looks like you already are a citizen here, no work to be done!");
-  }
-
-  return !player;
+const playerAlreadyExists = (interaction: CommandInteraction) => {
+  interaction.reply("Looks like you already are a citizen here, no work to be done!");
 };
 
 const registerPlayer = (interaction: CommandInteraction) => {
